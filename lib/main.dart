@@ -18,6 +18,13 @@ class MyApp extends StatelessWidget {
       },
       initialRoute: SplashScreen.routeName,
       theme: ThemeData(
+        bottomNavigationBarTheme: BottomNavigationBarThemeData(
+          unselectedItemColor: Colors.white,
+          selectedItemColor: Color.fromRGBO(255, 187, 59, 1),
+          unselectedIconTheme:IconThemeData(size: 30),
+          selectedIconTheme: IconThemeData( size: 35),
+          backgroundColor: Color.fromRGBO(255, 187, 59, 1),
+        ),
         useMaterial3: false,
       ),
     );
