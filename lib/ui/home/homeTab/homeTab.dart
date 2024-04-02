@@ -1,9 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:movies_app/ui/home/homeTab/popularMoviesGetData.dart';
 
-class HomeTab extends StatelessWidget {
 
+class HomeTab extends StatefulWidget {
+  @override
+  State<HomeTab> createState() => _HomeTabState();
+}
+
+class _HomeTabState extends State<HomeTab> {
   @override
   Widget build(BuildContext context) {
-    return Container(color: Colors.red,);
+    return Column(
+      children: [
+        PopularMoviesGetData(),
+      ],
+    );
   }
 }

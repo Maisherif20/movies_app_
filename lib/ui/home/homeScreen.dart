@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:movies_app/model/PopularMovie.dart';
 import 'package:movies_app/ui/home/browseTab/browseTab.dart';
 import 'package:movies_app/ui/home/homeTab/homeTab.dart';
 import 'package:movies_app/ui/home/searchTab/searchTab.dart';
@@ -7,12 +8,14 @@ import 'package:movies_app/ui/home/watchListTab/watchListTab.dart';
 class HomeScreen extends StatefulWidget {
   static String routeName = "Home Screen";
 
+
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
   int selectedIndexTab=0;
+  PopularMovie popularMovie = PopularMovie();
 
   List<Widget> tabs=[HomeTab(), SearchTab(), BrowseTab(),WatchListTab()];
 
