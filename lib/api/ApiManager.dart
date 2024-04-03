@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:movies_app/model/PopularMovie.dart';
+import 'package:movies_app/model/searchModel/Search.dart';
 class PopularApiManager{
   static const String imagePath="https://image.tmdb.org/t/p/w500";
   static const String baseUrl="api.themoviedb.org";
@@ -15,5 +16,16 @@ class PopularApiManager{
     var json = jsonDecode(response.body);
     PopularMovie popularMovie = PopularMovie.fromJson(json);
     return popularMovie;
+  }
+
+  static Future<Search>searchForMovie(String query)async{
+    var uri=Uri.https(baseUrl , "/3/search/movie",{
+      "api_key":apiKey,
+      "query":query,
+    });
+    var response = await http.get(uri);
+    var json = jsonDecode(response.body);
+    Search search = Search.fromJson(json);
+    return search;
   }
 }

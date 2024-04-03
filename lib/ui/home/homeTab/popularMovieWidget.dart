@@ -1,6 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:movies_app/api/popularApiManager.dart';
+import 'package:movies_app/api/ApiManager.dart';
 
 class PopularMovieWidget extends StatelessWidget {
   String title;
