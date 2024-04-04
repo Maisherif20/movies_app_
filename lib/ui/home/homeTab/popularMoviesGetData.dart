@@ -35,9 +35,9 @@ class PopularMoviesGetData extends StatelessWidget {
                 shrinkWrap: true,
                 itemBuilder: (context, index) => PopularMovieWidget(
                     title: resultList![index].title!,
-                    image: resultList![index].posterPath!,
+                    imagePoster: resultList![index].posterPath!,
                     releaseDate: resultList![index].releaseDate!,
-                  resultCount: resultList.length,
+                  imageBack: resultList![index].backdropPath!,
                 ),
                 itemCount: resultList?.length ?? 0),
           );

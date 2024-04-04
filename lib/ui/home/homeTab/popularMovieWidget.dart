@@ -4,11 +4,11 @@ import 'package:movies_app/api/ApiManager.dart';
 
 class PopularMovieWidget extends StatelessWidget {
   String title;
-  String image;
+  String imagePoster;
+  String imageBack;
   String releaseDate;
-  int resultCount;
   PopularMovieWidget(
-      {required this.title, required this.image, required this.releaseDate , required this.resultCount});
+      {required this.title, required this.imagePoster, required this.releaseDate  , required this.imageBack});
   @override
   Widget build(BuildContext context) {
     return  Container(
@@ -26,7 +26,7 @@ class PopularMovieWidget extends StatelessWidget {
                   Container(
                       // width: 412,
                       child: Image.network(
-                        "${PopularApiManager.imagePath}${image}",
+                        "${PopularApiManager.imagePath}${imageBack}",
                         fit: BoxFit.fill,
                         height: 212,
                       )),
@@ -58,7 +58,7 @@ class PopularMovieWidget extends StatelessWidget {
                 child: Stack(
                   children: [
                     Image.network(
-                      "${PopularApiManager.imagePath}${image}",
+                      "${PopularApiManager.imagePath}${imagePoster}",
                       width: 129,
                       height: 199,
                     ),
