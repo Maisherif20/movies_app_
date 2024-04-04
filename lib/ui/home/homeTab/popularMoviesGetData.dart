@@ -7,7 +7,7 @@ class PopularMoviesGetData extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-        future: PopularApiManager.getPopularMovies(),
+        future: ApiManager.getPopularMovies(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(
@@ -21,7 +21,7 @@ class PopularMoviesGetData extends StatelessWidget {
                 Text(snapshot.data?.message ?? snapshot.error.toString()),
                 ElevatedButton(
                     onPressed: () {
-                      PopularApiManager.getPopularMovies();
+                      ApiManager.getPopularMovies();
                     },
                     child: Text("Try again"))
               ],

@@ -25,7 +25,7 @@ class SearchListWdget extends StatelessWidget {
             Row(
               children: [
                 Image.network(
-                  "${PopularApiManager.imagePath}${image}",
+                  "${ApiManager.imagePath}${image}",
                   width: 100,
                   height: 100,
                 ),

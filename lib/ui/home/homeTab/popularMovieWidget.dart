@@ -26,7 +26,7 @@ class PopularMovieWidget extends StatelessWidget {
                   Container(
                       // width: 412,
                       child: Image.network(
-                        "${PopularApiManager.imagePath}${image}",
+                        "${ApiManager.imagePath}${image}",
                         fit: BoxFit.fill,
                         height: 212,
                       )),
@@ -58,7 +58,7 @@ class PopularMovieWidget extends StatelessWidget {
                 child: Stack(
                   children: [
                     Image.network(
-                      "${PopularApiManager.imagePath}${image}",
+                      "${ApiManager.imagePath}${image}",
                       width: 129,
                       height: 199,
                     ),

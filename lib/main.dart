@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:movies_app/ui/home/browseTab/categoryMovieList.dart';
 import 'package:movies_app/ui/home/homeScreen.dart';
 import 'package:movies_app/ui/splash_screen/splashScreen.dart';
 
@@ -15,6 +16,7 @@ class MyApp extends StatelessWidget {
       routes: {
         SplashScreen.routeName: (context) => SplashScreen(),
         HomeScreen.routeName: (context) => HomeScreen(),
+        MoviesListScreen.routeName:(context) => MoviesListScreen(),
       },
       initialRoute: SplashScreen.routeName,
       theme: ThemeData(
