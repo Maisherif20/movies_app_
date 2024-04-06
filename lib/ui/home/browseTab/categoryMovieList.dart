@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:movies_app/ui/home/searchTab/searchListWidget.dart';
-
 import '../../../api/ApiManager.dart';
+import '../../../model/genresMovies/Genres.dart';
 
-class MoviesListScreen extends StatelessWidget {
+class CategoryMoviesList extends StatelessWidget {
   static const String routeName ='Movies_List';
+
   @override
   Widget build(BuildContext context) {
+    var  args = ModalRoute.of(context)!.settings.arguments as Genres;
     return FutureBuilder(
-        future: ApiManager.getCategoryMovieList(),
+        future: ApiManager.getCategoryMovieList(args.id!),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
+            return const Center(
               child: CircularProgressIndicator(),
             );
           }
@@ -22,13 +24,15 @@ class MoviesListScreen extends StatelessWidget {
                     Text(snapshot.data?.message ?? snapshot.error.toString()),
                     ElevatedButton(
                         onPressed: () {
-                          ApiManager.getCategoryMovieList();
+                          ApiManager.getCategoryMovieList(args.id!);
                         },
-                        child: Text("Try again"))
+                        child: const Text("Try again"))
                   ],
                 ));
           }
           var movieList = snapshot.data?.results;
+
+
           return Scaffold(
             backgroundColor: Colors.black,
             body: ListView.builder(
@@ -36,11 +40,11 @@ class MoviesListScreen extends StatelessWidget {
                 shrinkWrap: true,
                 itemBuilder: (context, index) => SearchListWdget(
                   title:movieList![index].originalTitle!,
-                  image: movieList![index].posterPath!,
-                  releaseDate: movieList![index].releaseDate!,
-                  overView: movieList![index].overview!,
+                  image: movieList[index].posterPath!,
+                  releaseDate: movieList[index].releaseDate!,
+                  overView: movieList[index].overview!,
                 ),
-                itemCount: movieList?.length ?? 0),
+                itemCount: movieList?.length),
           );
         });
   }

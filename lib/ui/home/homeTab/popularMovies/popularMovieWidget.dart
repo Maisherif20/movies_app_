@@ -12,39 +12,37 @@ class PopularMovieWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return  Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             color: Color.fromRGBO(18, 18, 18, 1),
           ),
-          padding: EdgeInsets.only(left: 10, right: 10 , top: 10),
+          padding: const EdgeInsets.only(left: 10, right: 10 , top: 10),
           width: 450,
-          height: 289,
+           height: 289,
           child: Stack(
             children: [
               Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Container(
-                      // width: 412,
-                      child: Image.network(
-                        "${ApiManager.imagePath}${image}",
-                        fit: BoxFit.fill,
-                        height: 212,
-                      )),
+                  Image.network(
+                    "${ApiManager.imagePath}$image",
+                    fit: BoxFit.fill,
+                    height: 212,
+                  ),
                   Padding(
                     padding: const EdgeInsets.only(left: 150 , top: 10),
                     child: Text(
                       title,
                       textAlign: TextAlign.center,
-                      style: TextStyle(color: Colors.white, fontSize: 14 , fontWeight: FontWeight.bold),
+                      style: const TextStyle(color: Colors.white, fontSize: 14 , fontWeight: FontWeight.bold),
                     ),
                   ),
-                  SizedBox(height: 5,),
+                  const SizedBox(height: 5,),
                   Padding(
                     padding: const EdgeInsets.only(left: 150),
                     child: Text(
                       releaseDate,
                       textAlign: TextAlign.center,
-                      style: TextStyle(
+                      style: const TextStyle(
                           color: Color.fromRGBO(181, 180, 180, 1),
                           fontSize: 10,
                           fontWeight: FontWeight.w400),
@@ -58,7 +56,7 @@ class PopularMovieWidget extends StatelessWidget {
                 child: Stack(
                   children: [
                     Image.network(
-                      "${ApiManager.imagePath}${image}",
+                      "${ApiManager.imagePath}$image",
                       width: 129,
                       height: 199,
                     ),

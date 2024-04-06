@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
       routes: {
         SplashScreen.routeName: (context) => SplashScreen(),
         HomeScreen.routeName: (context) => HomeScreen(),
-        MoviesListScreen.routeName:(context) => MoviesListScreen(),
+        CategoryMoviesList.routeName:(context) => CategoryMoviesList(),
       },
       initialRoute: SplashScreen.routeName,
       theme: ThemeData(

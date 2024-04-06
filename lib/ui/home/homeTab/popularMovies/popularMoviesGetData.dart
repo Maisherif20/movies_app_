@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:movies_app/ui/home/homeTab/popularMovieWidget.dart';
+import 'package:movies_app/ui/home/homeTab/popularMovies/popularMovieWidget.dart';
 
-import '../../../api/ApiManager.dart';
+import '../../../../api/ApiManager.dart';
 
 class PopularMoviesGetData extends StatelessWidget {
   @override
