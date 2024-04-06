@@ -1,4 +1,3 @@
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:movies_app/api/ApiManager.dart';
 
@@ -16,7 +15,7 @@ class PopularMovieWidget extends StatelessWidget {
             color: Color.fromRGBO(18, 18, 18, 1),
           ),
           padding: EdgeInsets.only(left: 10, right: 10 , top: 10),
-          width: 450,
+          width: 400,
           height: 289,
           child: Stack(
             children: [
@@ -26,7 +25,7 @@ class PopularMovieWidget extends StatelessWidget {
                   Container(
                       // width: 412,
                       child: Image.network(
-                        "${PopularApiManager.imagePath}${imageBack}",
+                        "${PopularApiManager.imagePath}$imageBack",
                         fit: BoxFit.fill,
                         height: 212,
                       )),

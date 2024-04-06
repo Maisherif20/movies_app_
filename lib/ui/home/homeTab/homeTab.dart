@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:movies_app/ui/home/homeTab/new_releases/new_releases.dart';
 import 'package:movies_app/ui/home/homeTab/popularMoviesGetData.dart';
 
 
@@ -13,6 +14,7 @@ class _HomeTabState extends State<HomeTab> {
     return Column(
       children: [
         PopularMoviesGetData(),
+        NewReleases(),
       ],
     );
   }
