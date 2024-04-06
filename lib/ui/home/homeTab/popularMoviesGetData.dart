@@ -4,6 +4,7 @@ import 'package:movies_app/ui/home/homeTab/popularMovieWidget.dart';
 import '../../../api/ApiManager.dart';
 
 class PopularMoviesGetData extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
