@@ -11,11 +11,11 @@ class RecommendedMoviesGetData extends StatelessWidget {
         if(snapshot.connectionState == ConnectionState.waiting){
           return const Center(child: CircularProgressIndicator(),);
         }
-        if(snapshot.hasError || snapshot.data?.status_message == 'error'){
+        if(snapshot.hasError || snapshot.data?.code == 'error'){
           return Center(
             child: Column(
               children: [
-                Text(snapshot.data?.status_message ?? snapshot.error.toString()),
+                Text(snapshot.data?.code ?? snapshot.error.toString()),
                 ElevatedButton(onPressed: (){}, child:const Text('Try Again')),
               ],
             ),

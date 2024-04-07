@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-import 'package:movies_app/model/PopularMovie.dart';
+import 'package:movies_app/model/popularMovie/PopularMovie.dart';
 import 'package:movies_app/model/categoryMovie/CategoryMovie.dart';
 import 'package:movies_app/model/genresMovies/GenresMovies.dart';
 import 'package:movies_app/model/searchModel/Search.dart';
@@ -61,7 +61,6 @@ class ApiManager{
     });
     var response = await http.get(uri);
     var json = jsonDecode(response.body);
-    print(response.body);
     CategoryMovie categoryMovie = CategoryMovie.fromJson(json);
     return categoryMovie;
   }

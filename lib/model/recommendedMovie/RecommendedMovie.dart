@@ -1,35 +1,35 @@
-import 'Movie.dart';
+import '../Result.dart';
 
 class RecommendedMovie {
   RecommendedMovie({
     this.page,
-    this.status_message,
-    this.success,
+    this.code,
+    this.message,
     this.results,
     this.totalPages,
     this.totalResults,});
 
   RecommendedMovie.fromJson(dynamic json) {
     page = json['page'];
-    status_message = json['status_message'];
-    success = json['success'];
+    code = json['status_message'];
+    message = json['success'];
     if (json['results'] != null) {
       results = [];
       json['results'].forEach((v) {
-        results?.add(Movie.fromJson(v));
+        results?.add(Result.fromJson(v));
       });
     }
     totalPages = json['total_pages'];
     totalResults = json['total_results'];
   }
   int? page;
-  String? status_message;
-  String? success;
-  List<Movie>? results;
+  String? code;
+  String? message;
+  List<Result>? results;
   int? totalPages;
   int? totalResults;
   RecommendedMovie copyWith({  int? page,
-    List<Movie>? results,
+    List<Result>? results,
     int? totalPages,
     int? totalResults,
   }) => RecommendedMovie(  page: page ?? this.page,

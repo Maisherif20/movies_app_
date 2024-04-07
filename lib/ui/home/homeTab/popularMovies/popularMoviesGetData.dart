@@ -11,7 +11,7 @@ class PopularMoviesGetData extends StatelessWidget {
         future: ApiManager.getPopularMovies(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
+            return const Center(
               child: CircularProgressIndicator(),
             );
           }
@@ -36,9 +36,9 @@ class PopularMoviesGetData extends StatelessWidget {
                 shrinkWrap: true,
                 itemBuilder: (context, index) => PopularMovieWidget(
                     title: resultList![index].title!,
-                    imagePoster: resultList![index].posterPath!,
-                    releaseDate: resultList![index].releaseDate!,
-                  imageBack: resultList![index].backdropPath!,
+                    imagePoster: resultList[index].posterPath!,
+                    releaseDate: resultList[index].releaseDate!,
+                  imageBack: resultList[index].backdropPath!,
                 ),
                 itemCount: resultList?.length ?? 0),
           );

@@ -24,10 +24,10 @@ class _PopularMovieWidgetState extends State<PopularMovieWidget> {
   @override
   Widget build(BuildContext context) {
     return  Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: Color.fromRGBO(18, 18, 18, 1),
       ),
-      padding: EdgeInsets.only(left: 10, right: 10 , top: 10),
+      padding: const EdgeInsets.only(left: 10, right: 10 , top: 10),
       width: 450,
       height: 289,
       child: Stack(
@@ -47,16 +47,16 @@ class _PopularMovieWidgetState extends State<PopularMovieWidget> {
                 child: Text(
                   widget.title,
                   textAlign: TextAlign.center,
-                  style: TextStyle(color: Colors.white, fontSize: 14 , fontWeight: FontWeight.bold),
+                  style:const TextStyle(color: Colors.white, fontSize: 14 , fontWeight: FontWeight.bold),
                 ),
               ),
-              SizedBox(height: 5,),
+              const SizedBox(height: 5,),
               Padding(
                 padding: const EdgeInsets.only(left: 150),
                 child: Text(
                   widget.releaseDate,
                   textAlign: TextAlign.center,
-                  style: TextStyle(
+                  style: const TextStyle(
                       color: Color.fromRGBO(181, 180, 180, 1),
                       fontSize: 10,
                       fontWeight: FontWeight.w400),
@@ -78,11 +78,16 @@ class _PopularMovieWidgetState extends State<PopularMovieWidget> {
                   top:3,
                   child: InkWell(
                     onTap: ()async{
-                      isSelected = true;
-                      Movie movie = Movie(title: widget.title , posterImagePath: widget.imagePoster, releaseData: widget.releaseDate);
-                      await MovieDao.addMovieToFireBase(movie);
-                      setState(() {
-                      });
+                      isSelected = true ;
+                        Movie movie = Movie(
+                            title: widget.title ,
+                            posterImagePath: widget.imagePoster,
+                            releaseData: widget.releaseDate
+                        );
+                         await MovieDao.addMovieToFireBase(movie);
+                         await MovieDao.updateMovie(movie);
+                        setState(() {});
+
                     },
                     child: Stack(children: [
                       Image.asset(isSelected==false?"assests/images/img_1.png":"assests/images/img_3.png" , height: 36 , width: 28,),
