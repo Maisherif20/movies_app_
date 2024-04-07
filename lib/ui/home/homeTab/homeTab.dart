@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:movies_app/ui/home/homeTab/popularMoviesGetData.dart';
+import 'package:movies_app/ui/home/homeTab/popularMovies/popularMoviesGetData.dart';
+import 'package:movies_app/ui/home/homeTab/recommendedMovies/recommendedMoviesGetData.dart';
 
 
 class HomeTab extends StatefulWidget {
@@ -13,6 +14,7 @@ class _HomeTabState extends State<HomeTab> {
     return Column(
       children: [
         PopularMoviesGetData(),
+        RecommendedMoviesGetData(),
       ],
     );
   }
