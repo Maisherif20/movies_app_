@@ -1,14 +1,55 @@
 import 'package:flutter/material.dart';
-import 'package:movies_app/model/PopularMovie.dart';
+import 'package:movies_app/modelForFireStore/movieDao.dart';
+import 'package:movies_app/ui/home/watchListTab/WatchListWidget.dart';
 
 import '../../../model/Result.dart';
+import '../searchTab/searchListWidget.dart';
+
 class WatchListTab extends StatelessWidget {
-static String routeName="WatchList";
+  static String routeName = "WatchList";
   @override
   Widget build(BuildContext context) {
-    // var args = ModalRoute.of(context)!.settings.arguments as PopularMovie;
+    //var args = ModalRoute.of(context)!.settings.arguments as Result;
+
     return Container(
-      color: Colors.purple,
+      padding: EdgeInsets.only(top: 30),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text('Watch List',style: TextStyle(fontSize: 23,fontWeight: FontWeight.w400,color: Colors.white),),
+          Expanded(
+            child: StreamBuilder(
+              stream: MovieDao.listenForMovie(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+                if (snapshot.hasError) {
+                  return Center(
+                    child: Column(
+                      children: [
+                        const Text('SomeThing went wrong'),
+                        ElevatedButton(
+                            onPressed: () {}, child: const Text("Try again"))
+                      ],
+                    ),
+                  );
+                }
+                var movieList = snapshot.data;
+                return ListView.builder(
+                    itemBuilder:(context,index) => WatchListWdget(
+                        title: movieList[index].title!,
+                        image: movieList[index].posterImagePath!,
+                        releaseDate: movieList[index].releaseData!),
+                  itemCount: movieList!.length ?? 0,
+                );
+              },
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

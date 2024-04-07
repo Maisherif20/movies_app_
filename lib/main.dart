@@ -1,8 +1,15 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:movies_app/firebase_options.dart';
+import 'package:movies_app/ui/home/browseTab/categoryMovieList.dart';
 import 'package:movies_app/ui/home/homeScreen.dart';
 import 'package:movies_app/ui/splash_screen/splashScreen.dart';
 
-void main() {
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform
+  );
   runApp(const MyApp());
 }
 
@@ -15,10 +22,11 @@ class MyApp extends StatelessWidget {
       routes: {
         SplashScreen.routeName: (context) => SplashScreen(),
         HomeScreen.routeName: (context) => HomeScreen(),
+        CategoryMoviesList.routeName:(context) => CategoryMoviesList()
       },
       initialRoute: SplashScreen.routeName,
       theme: ThemeData(
-        bottomNavigationBarTheme: BottomNavigationBarThemeData(
+        bottomNavigationBarTheme:const BottomNavigationBarThemeData(
           unselectedItemColor: Colors.white,
           selectedItemColor: Color.fromRGBO(255, 187, 59, 1),
           unselectedIconTheme:IconThemeData(size: 30),

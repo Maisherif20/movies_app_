@@ -3,8 +3,10 @@ class Results {
       this.adult, 
       this.backdropPath, 
       this.genreIds, 
-      this.id, 
-      this.originalLanguage, 
+      this.id,
+      this.message,
+      this.code,
+      this.originalLanguage,
       this.originalTitle, 
       this.overview, 
       this.popularity, 
@@ -17,6 +19,8 @@ class Results {
 
   Results.fromJson(dynamic json) {
     adult = json['adult'];
+    message = json['message'];
+    code = json['code'];
     backdropPath = json['backdrop_path'];
     genreIds = json['genre_ids'] != null ? json['genre_ids'].cast<num>() : [];
     id = json['id'];
@@ -33,6 +37,8 @@ class Results {
   }
   bool? adult;
   String? backdropPath;
+  String? code;
+  String? message;
   List<num>? genreIds;
   num? id;
   String? originalLanguage;
