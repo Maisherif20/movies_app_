@@ -1,4 +1,4 @@
-import 'Result.dart';
+import '../Result.dart';
 
 class PopularMovie {
   PopularMovie({

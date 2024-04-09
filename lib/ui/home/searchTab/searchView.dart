@@ -13,7 +13,7 @@ class SearchView extends SearchDelegate {
   @override
   Widget buildResults(BuildContext context) {
     return FutureBuilder(
-        future: PopularApiManager.searchForMovie(query),
+        future: ApiManager.searchForMovie(query),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(
@@ -27,7 +27,7 @@ class SearchView extends SearchDelegate {
                 Text(snapshot.data?.message ?? snapshot.error.toString()),
                 ElevatedButton(
                     onPressed: () {
-                      PopularApiManager.searchForMovie(query);
+                      ApiManager.searchForMovie(query);
                     },
                     child: Text("Try again"))
               ],

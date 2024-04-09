@@ -3,17 +3,29 @@
 <plist version="1.0">
 <dict>
 	<key>API_KEY</key>
+<<<<<<< HEAD
 	<string>AIzaSyDNJiC2Omv8CUMIWNfp1Uat7sgSOrtkjiw</string>
 	<key>GCM_SENDER_ID</key>
 	<string>420254640768</string>
+=======
+	<string>AIzaSyBVDrxi7DKWGeCHqRh0R_Mcip1ETNBLX_w</string>
+	<key>GCM_SENDER_ID</key>
+	<string>909775527453</string>
+>>>>>>> origin/Development_two
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>com.example.moviesApp</string>
 	<key>PROJECT_ID</key>
+<<<<<<< HEAD
 	<string>moviesapp-8d9f3</string>
 	<key>STORAGE_BUCKET</key>
 	<string>moviesapp-8d9f3.appspot.com</string>
+=======
+	<string>movie-app-9db3f</string>
+	<key>STORAGE_BUCKET</key>
+	<string>movie-app-9db3f.appspot.com</string>
+>>>>>>> origin/Development_two
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -25,6 +37,10 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
+<<<<<<< HEAD
 	<string>1:420254640768:ios:3e7efa14c3df5877159465</string>
+=======
+	<string>1:909775527453:ios:c2d1f6785ac08a6553b0f4</string>
+>>>>>>> origin/Development_two
 </dict>
 </plist>

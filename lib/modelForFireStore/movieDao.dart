@@ -9,10 +9,33 @@ class MovieDao {
         toFirestore: (movie, options) => movie.toFireStore());
   }
 
-  static Future<void> addMovieToFireBase(Movie movie) {
+  static Future<void> addMovieToFireBase(Movie movie)  {
     var movieCollection = getMovieCollection();
     var doc = movieCollection.doc();
     movie.id = doc.id;
     return doc.set(movie);
+  }
+
+  static Future<List<Movie>> getAllMovies()async{
+    var movieCollection = getMovieCollection();
+    var snapShot = await movieCollection.get();
+    return snapShot.docs.map((e) => e.data()).toList();
+
+  }
+
+  static Future<void> updateMovie(Movie movie) {
+     return getMovieCollection().doc(movie.id).update(movie.toFireStore());
+  }
+  
+  static Stream<List<Movie>> listenForMovie() async* {
+    var movieCollection = getMovieCollection();
+    var stream = movieCollection.snapshots();
+    yield* stream.
+    map((querySnapShot) => querySnapShot.docs.map((e) => e.data()).toList());
+  }
+
+  static Future<void> deleteMovie(String movieId)  {
+    var movieCollection = getMovieCollection();
+    return movieCollection.doc(movieId).delete();
   }
 }

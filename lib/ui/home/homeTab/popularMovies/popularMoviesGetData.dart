@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:movies_app/ui/home/homeTab/popularMovieWidget.dart';
+import 'package:movies_app/ui/home/homeTab/popularMovies/popularMovieWidget.dart';
 
-import '../../../api/ApiManager.dart';
+import '../../../../api/ApiManager.dart';
 
 class PopularMoviesGetData extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-        future: PopularApiManager.getPopularMovies(),
+        future: ApiManager.getPopularMovies(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
+            return const Center(
               child: CircularProgressIndicator(),
             );
           }
@@ -22,7 +22,7 @@ class PopularMoviesGetData extends StatelessWidget {
                 Text(snapshot.data?.message ?? snapshot.error.toString()),
                 ElevatedButton(
                     onPressed: () {
-                      PopularApiManager.getPopularMovies();
+                      ApiManager.getPopularMovies();
                     },
                     child: Text("Try again"))
               ],
@@ -36,9 +36,9 @@ class PopularMoviesGetData extends StatelessWidget {
                 shrinkWrap: true,
                 itemBuilder: (context, index) => PopularMovieWidget(
                     title: resultList![index].title!,
-                    imagePoster: resultList![index].posterPath!,
-                    releaseDate: resultList![index].releaseDate!,
-                  imageBack: resultList![index].backdropPath!,
+                    imagePoster: resultList[index].posterPath!,
+                    releaseDate: resultList[index].releaseDate!,
+                  imageBack: resultList[index].backdropPath!,
                 ),
                 itemCount: resultList?.length ?? 0),
           );
