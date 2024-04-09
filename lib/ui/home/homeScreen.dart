@@ -16,7 +16,6 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   int selectedIndexTab=0;
   PopularMovie popularMovie = PopularMovie();
-
   List<Widget> tabs=[HomeTab(), SearchTab(), BrowseTab(),WatchListTab()];
 
   @override

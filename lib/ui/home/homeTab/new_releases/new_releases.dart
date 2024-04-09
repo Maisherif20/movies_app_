@@ -46,8 +46,9 @@ class NewReleases extends StatelessWidget {
                     scrollDirection: Axis.horizontal,
                     physics: const AlwaysScrollableScrollPhysics(),
                     itemCount: resultList!.length,
-                    itemBuilder: (context, index) =>
-                        RealeasesWidget(resultList![index].posterPath!),
+                    itemBuilder: (context, index) => RealeasesWidget(
+                        imagePoster: resultList![index].posterPath!,
+                        id: resultList![index].id.toString()),
                     //       Container(
                     //
                     //   child: Image.network('${ReleasesApi.imagePath}${resultList![index].posterPath!}'),
