@@ -9,7 +9,7 @@ class MovieDao {
         toFirestore: (movie, options) => movie.toFireStore());
   }
 
-  static Future<void> addMovieToFireBase(Movie movie)  {
+  static Future<void> addMovieToFireBase(Movie movie , String id)  {
     var movieCollection = getMovieCollection();
     var doc = movieCollection.doc();
     movie.id = doc.id;
@@ -24,9 +24,9 @@ class MovieDao {
   }
 
   static Future<void> updateMovie(Movie movie) {
-     return getMovieCollection().doc(movie.id).update(movie.toFireStore());
+    return getMovieCollection().doc(movie.id).update(movie.toFireStore());
   }
-  
+
   static Stream<List<Movie>> listenForMovie() async* {
     var movieCollection = getMovieCollection();
     var stream = movieCollection.snapshots();

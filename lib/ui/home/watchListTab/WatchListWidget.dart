@@ -6,15 +6,18 @@ import '../../../modelForFireStore/movieDao.dart';
 
 class WatchListWdget extends StatelessWidget {
   String title;
+  String id;
   String image;
   String releaseDate;
   WatchListWdget(
       {required this.title,
+        required this.id,
         required this.image,
         required this.releaseDate,
-        });
+      });
   @override
   Widget build(BuildContext context) {
+    // var args = ModalRoute.of(context)!.settings.arguments as Movie;
     return Container(
       width: double.infinity,
       color: Colors.black,
@@ -29,8 +32,8 @@ class WatchListWdget extends StatelessWidget {
                   children: [
                     Image.network(
                       "${ApiManager.imagePath}${image}",
-                      width: 100,
-                      height: 100,
+                      width: 150,
+                      height: 120,
                     ),
                     Positioned(
                       left:15,
@@ -45,18 +48,30 @@ class WatchListWdget extends StatelessWidget {
                 ),
                 Expanded(
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                       Text(
-                         """$title""",
-                        style: const TextStyle(color: Colors.white),
+                      Text(
+                        """$title""",
+                        style: const TextStyle(color: Colors.white , fontSize: 20),
                       ),
-                      Text(releaseDate, style: const TextStyle(color: Colors.white)),
-
+                      SizedBox(height: 5,),
+                      Text(releaseDate, style: const TextStyle(color: Colors.white , fontSize: 17)),
                     ],
                   ),
                 ),
+                InkWell(
+                    onTap: (){
+                      // Movie movie = Movie();
+                      MovieDao.deleteMovie(id);
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 20),
+                      child: Icon(Icons.delete , color: Color.fromRGBO(255, 187, 59, 1),size: 30,),
+                    ))
               ],
             ),
+            SizedBox(height: 10,),
+            Divider(color: Colors.white,height: 2,)
           ],
         ),
       ),

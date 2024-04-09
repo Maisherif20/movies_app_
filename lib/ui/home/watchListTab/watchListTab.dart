@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:movies_app/modelForFireStore/movieDao.dart';
 import 'package:movies_app/ui/home/watchListTab/WatchListWidget.dart';
-
 import '../../../model/Result.dart';
 import '../searchTab/searchListWidget.dart';
 
@@ -16,7 +15,10 @@ class WatchListTab extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('Watch List',style: TextStyle(fontSize: 23,fontWeight: FontWeight.w400,color: Colors.white),),
+          Padding(
+            padding: const EdgeInsets.only(left: 15),
+            child: const Text('Watch List',style: TextStyle(fontSize: 30,fontWeight: FontWeight.w400,color: Colors.white),),
+          ),
           Expanded(
             child: StreamBuilder(
               stream: MovieDao.listenForMovie(),
@@ -39,10 +41,11 @@ class WatchListTab extends StatelessWidget {
                 }
                 var movieList = snapshot.data;
                 return ListView.builder(
-                    itemBuilder:(context,index) => WatchListWdget(
-                        title: movieList[index].title!,
-                        image: movieList[index].posterImagePath!,
-                        releaseDate: movieList[index].releaseData!),
+                  itemBuilder:(context,index) => WatchListWdget(
+                      title: movieList[index].title!,
+                      id: movieList[index].id.toString(),
+                      image: movieList[index].posterImagePath!,
+                      releaseDate: movieList[index].releaseData!),
                   itemCount: movieList!.length ?? 0,
                 );
               },

@@ -35,16 +35,35 @@ class CategoryMoviesList extends StatelessWidget {
 
           return Scaffold(
             backgroundColor: Colors.black,
-            body: ListView.builder(
-                physics: const AlwaysScrollableScrollPhysics(),
-                shrinkWrap: true,
-                itemBuilder: (context, index) => SearchListWdget(
-                  title:movieList![index].originalTitle!,
-                  image: movieList[index].posterPath!,
-                  releaseDate: movieList[index].releaseDate!,
-                  overView: movieList[index].overview!,
+            body: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 30 , left: 10),
+                  child: Row(
+                    children: [
+                      InkWell(onTap: (){
+                        Navigator.pop(context);
+                      },child: Icon(Icons.arrow_back , color: Colors.white,)),
+                      SizedBox(width: 10,),
+                      Text("${args.name} Movies" , style: TextStyle(color: Colors.white , fontWeight: FontWeight.bold , fontSize: 30),),
+                    ],
+                  ),
                 ),
-                itemCount: movieList?.length),
+                Expanded(
+                  child: ListView.builder(
+                      physics: const AlwaysScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemBuilder: (context, index) => SearchListWdget(
+                        title:movieList![index].originalTitle!,
+                        image: movieList[index].posterPath!,
+                        releaseDate: movieList[index].releaseDate!,
+                        overView: movieList[index].overview!,
+                      ),
+                      itemCount: movieList?.length),
+                ),
+              ],
+            ),
           );
         });
   }

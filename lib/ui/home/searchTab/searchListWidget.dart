@@ -26,18 +26,19 @@ class SearchListWdget extends StatelessWidget {
               children: [
                 Image.network(
                   "${ApiManager.imagePath}${image}",
-                  width: 100,
-                  height: 100,
+                  width: 140,
+                  height: 120,
                 ),
                 Expanded(
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         """$title""",
                         style: TextStyle(color: Colors.white),
                       ),
+                      SizedBox(height: 5,),
                       Text(releaseDate, style: TextStyle(color: Colors.white)),
-
                     ],
                   ),
                 ),

@@ -25,13 +25,13 @@ class RecommendedMoviesGetData extends StatelessWidget {
         return Expanded(child: ListView.builder(
           itemBuilder: (context,index) => RecommendedMovieWidget(
               posterPath: movieList![index].posterPath!,
+              id: movieList![index].id.toString()!,
               title: movieList[index].title!,
               voteAverage: movieList[index].voteAverage!.toString(),
               releaseDate: movieList[index].releaseDate!),
           itemCount: movieList?.length ?? 0,
           scrollDirection: Axis.horizontal,
-          physics: const AlwaysScrollableScrollPhysics(),
-          shrinkWrap: true,
+
         ));
       },
     );

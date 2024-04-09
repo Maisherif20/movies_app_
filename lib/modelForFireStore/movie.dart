@@ -3,15 +3,22 @@ class Movie {
   String? title;
   String? posterImagePath;
   String? releaseData;
-  Movie({this.id,this.title, this.posterImagePath, this.releaseData});
+  bool? isSelected;
+  Movie(
+      {this.id,
+        this.title,
+        this.posterImagePath,
+        this.releaseData,
+        this.isSelected = false});
 
   // Get data from fireStore
   Movie.fromFireStore(Map<String, dynamic>? data)
       : this(
-            id: data?['id'],
-            title: data?['title'],
-            posterImagePath: data?["posterImagePath"],
-            releaseData: data?['releaseData']);
+      id: data?['id'],
+      title: data?['title'],
+      posterImagePath: data?["posterImagePath"],
+      releaseData: data?['releaseData'],
+      isSelected: data?['isSelected']);
 
   //path data to fireStore
   Map<String, dynamic> toFireStore() {
@@ -20,6 +27,7 @@ class Movie {
       "title": title,
       "posterImagePath": posterImagePath,
       "releaseData": releaseData,
+      "isSelected": isSelected,
     };
   }
 }
