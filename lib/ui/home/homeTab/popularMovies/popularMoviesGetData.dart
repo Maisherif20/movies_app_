@@ -9,7 +9,6 @@ class PopularMoviesGetData extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // var args  = ModalRoute.of(context)!.settings.arguments as Movie;
-
     return FutureBuilder(
         future: ApiManager.getPopularMovies(),
         builder: (context, snapshot) {
@@ -44,6 +43,7 @@ class PopularMoviesGetData extends StatelessWidget {
                   imagePoster: resultList[index].posterPath!,
                   releaseDate: resultList[index].releaseDate!,
                   imageBack: resultList[index].backdropPath!,
+                  // isSelected: resultList![index].isSelected,
                 ),
                 itemCount: resultList?.length ?? 0),
           );

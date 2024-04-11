@@ -1,7 +1,8 @@
 class Result {
   Result({
       this.adult, 
-      this.backdropPath, 
+      this.isSelected,
+      this.backdropPath,
       this.code,
       this.message,
       this.genreIds,
@@ -19,6 +20,7 @@ class Result {
 
   Result.fromJson(dynamic json) {
     adult = json['adult'];
+    isSelected = json['isSelected'];
     backdropPath = json['backdrop_path'];
     code = json['code'];
     message = json['message'];
@@ -36,6 +38,7 @@ class Result {
     voteCount = json['vote_count'];
   }
   bool? adult;
+  bool? isSelected;
   String? backdropPath;
   String? code;
   String? message;
@@ -83,6 +86,7 @@ Result copyWith({  bool? adult,
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     map['adult'] = adult;
+    map['isSelected'] = isSelected;
     map['backdrop_path'] = backdropPath;
     map['genre_ids'] = genreIds;
     map['id'] = id;

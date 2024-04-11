@@ -54,7 +54,7 @@ class ApiManager{
     return genresMovies;
   }
 
-  static Future<CategoryMovie>getCategoryMovieList(int withGenres)async{
+  static Future<CategoryMovie> getCategoryMovieList(int withGenres)async{
     var uri=Uri.https(baseUrl , "/3/discover/movie",{
       "api_key":apiKey,
       "with_genres":withGenres.toString(),

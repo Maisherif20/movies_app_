@@ -14,26 +14,43 @@ class PopularMovieWidget extends StatefulWidget {
   String releaseDate;
   PopularMovieWidget(
       {required this.title,
-        required this.id,
-        required this.imagePoster,
-        required this.releaseDate,
-        required this.imageBack  });
+      required this.id,
+      required this.imagePoster,
+      required this.releaseDate,
+      required this.imageBack});
   @override
   State<PopularMovieWidget> createState() => _PopularMovieWidgetState();
 }
 
 class _PopularMovieWidgetState extends State<PopularMovieWidget> {
-  bool? isSelected  = false;
+  bool isAddedToWatchlist = false;
+
+  late SharedPreferences _prefs;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadWatchlistState();
+  }
+
+  Future<void> _loadWatchlistState() async {
+    _prefs = await SharedPreferences.getInstance();
+    setState(() {
+      isAddedToWatchlist =
+          _prefs.getBool(widget.id) ?? false;
+    });
+  }
+
+  Future<void> _saveWatchlistState() async {
+    await _prefs.setBool(widget.id, isAddedToWatchlist);
+  }
+
   @override
   Widget build(BuildContext context) {
-
-    // late var  args  = ModalRoute.of(context)!.settings.arguments as Movie;
-    // var provider = Provider.of<SaveProvider>(context);
-
     return InkWell(
-      onTap: (){
-        Navigator.of(context).push(
-            MaterialPageRoute(builder: (context) => DetailesScreen(id: widget.id)));
+      onTap: () {
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => DetailesScreen(id: widget.id)));
       },
       child: Container(
         decoration: const BoxDecoration(
@@ -48,12 +65,12 @@ class _PopularMovieWidgetState extends State<PopularMovieWidget> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Container(
-                  // width: 412,
+                    // width: 412,
                     child: Image.network(
-                      "${ApiManager.imagePath}${widget.imageBack}",
-                      fit: BoxFit.fill,
-                      height: 212,
-                    )),
+                  "${ApiManager.imagePath}${widget.imageBack}",
+                  fit: BoxFit.fill,
+                  height: 212,
+                )),
                 Padding(
                   padding: const EdgeInsets.only(left: 150, top: 10),
                   child: Text(
@@ -95,42 +112,43 @@ class _PopularMovieWidgetState extends State<PopularMovieWidget> {
                     top: 3,
                     child: InkWell(
                       onTap: () async {
-                        Movie movie = Movie(
-                          id: widget.id,
-                          title: widget.title,
-                          posterImagePath: widget.imagePoster,
-                          releaseData: widget.releaseDate,
-                          isSelected: true,
-                        );
-                        isSelected=true;
-                        await MovieDao.addMovieToFireBase(movie, widget.id);
-                        await MovieDao.updateMovie(movie);
-                        // moviee.isSelected = !moviee.isSelected!;
-                        // widget.moviee=Movie(isSelected: true , id: widget.id);
-                        // widget.moviee.isSelected = !widget.moviee.isSelected!;
-                        // updateInFirebase(widget.title, widget.imagePoster, widget.releaseDate, widget.id);
-                        SharedPreferences prefs =
-                        await SharedPreferences.getInstance();
-                        prefs.setBool("isSelected", isSelected!);
-                        isSelected=prefs.getBool("isSelected")!;
-                        print(isSelected);
                         setState(() {
+                          isAddedToWatchlist = !isAddedToWatchlist;
                         });
+                        await _saveWatchlistState();
+                        if (isAddedToWatchlist)
+                          {
+                            Movie movie = Movie(
+                              id: widget.id,
+                              title: widget.title,
+                              posterImagePath: widget.imagePoster,
+                              releaseData: widget.releaseDate,
+                              isSelected: true,
+                            );
+                            // isFav=  await MovieDao.checkInFireBase(movie.id!) ;
+                            await MovieDao.addMovieToFireBase(movie, widget.id);
+                            await MovieDao.updateMovie(movie);
+                          }
                       },
                       child: Stack(
                         children: [
-                          // widget.movie.isSelected == false ? Text("${widget.movie.isSelected}" ,style: TextStyle(fontSize: 50),)
-                          //     : Text(""),
-                          isSelected == false ? Image.asset("assests/images/img_1.png", height: 36,
-                            width: 28,)
-                              : Image.asset("assests/images/img_3.png" ,height: 36,
-                            width: 28,),
+                          isAddedToWatchlist
+                              ? Image.asset(
+                                  "assests/images/img_3.png",
+                                  height: 36,
+                                  width: 28,
+                                )
+                              : Image.asset(
+                                  "assests/images/img_1.png",
+                                  height: 36,
+                                  width: 28,
+                                ),
                           // Icon(Icons.bookmark , size: 50, color: moviee.isSelected==false?Color.fromRGBO(81, 79, 79, 1):Color.fromRGBO(247, 181, 57, 1),),
                           Icon(
-                            isSelected == false ? Icons.add : Icons.check,
+                            isAddedToWatchlist ? Icons.check : Icons.add,
                             color: Colors.white,
                             size: 25,
-                          )
+                          ),
                         ],
                       ),
                     ),
@@ -143,31 +161,20 @@ class _PopularMovieWidgetState extends State<PopularMovieWidget> {
       ),
     );
   }
-
-  Future<bool?>updateInFirebase(String title , String imagePoster, String releaseDate  , String id )async{
-    Movie movie = Movie(
-      id: id,
-      title: title,
-      posterImagePath: imagePoster,
-      releaseData: releaseDate,
-      isSelected: true,
-    );
-    // print("jjjjjjjjjj ${movie.isSelected}");
-    // widget.moviee= movie;
-    // print("mmmmmmmmmmmmmm ${widget.moviee?.isSelected}");
-    await MovieDao.addMovieToFireBase(movie, id);
-    await MovieDao.updateMovie(movie);
-    return movie.isSelected;
-  }
-// onClicked(var args, context) async {}
-// Future<void> saveIsSelected(Movie movie)async {
-//   final SharedPreferences prefs = await SharedPreferences.getInstance();
-//   await prefs.setBool("isSelected", movie.isSelected!);
-// }
-// Future<bool?> getIsSelected()async {
-//   final SharedPreferences prefs = await SharedPreferences.getInstance();
-//   bool? selected = await prefs.getBool("isSelected");
-//   print("lllllllllllll$selected");
-//   return selected;
-// }
 }
+// Future<bool?> updateInFirebase(
+//     String title, String imagePoster, String releaseDate, String id) async {
+//   Movie movie = Movie(
+//     id: id,
+//     title: title,
+//     posterImagePath: imagePoster,
+//     releaseData: releaseDate,
+//     isSelected: true,
+//   );
+//   // print("jjjjjjjjjj ${movie.isSelected}");
+//   // widget.moviee= movie;
+//   // print("mmmmmmmmmmmmmm ${widget.moviee?.isSelected}");
+//   await MovieDao.addMovieToFireBase(movie, id);
+//   await MovieDao.updateMovie(movie);
+//   return movie.isSelected;
+// }

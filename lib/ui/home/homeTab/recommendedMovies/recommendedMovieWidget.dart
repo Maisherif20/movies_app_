@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../api/ApiManager.dart';
 import '../../../../modelForFireStore/movie.dart';
 import '../../../../modelForFireStore/movieDao.dart';
@@ -12,13 +13,38 @@ class RecommendedMovieWidget extends StatefulWidget {
   String releaseDate;
 
   RecommendedMovieWidget(
-      {required this.posterPath, required this.id,required this.title, required this.voteAverage, required this.releaseDate});
+      {required this.posterPath,
+      required this.id,
+      required this.title,
+      required this.voteAverage,
+      required this.releaseDate});
 
   @override
   State<RecommendedMovieWidget> createState() => _RecommendedMovieWidgetState();
 }
 
 class _RecommendedMovieWidgetState extends State<RecommendedMovieWidget> {
+  bool isAddedToWatchlist = false;
+
+  late SharedPreferences _prefs;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadWatchlistState();
+  }
+
+  Future<void> _loadWatchlistState() async {
+    _prefs = await SharedPreferences.getInstance();
+    setState(() {
+      isAddedToWatchlist = _prefs.getBool(widget.id) ?? false;
+    });
+  }
+
+  Future<void> _saveWatchlistState() async {
+    await _prefs.setBool(widget.id, isAddedToWatchlist);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -31,44 +57,55 @@ class _RecommendedMovieWidgetState extends State<RecommendedMovieWidget> {
           children: [
             Stack(children: [
               InkWell(
-                onTap: (){
-                  Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => DetailesScreen(id: widget.id)));
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => DetailesScreen(id: widget.id)));
                 },
                 child: Container(
-                  // height: 160,
-                  //   width: 80,
+                    // height: 160,
+                    //   width: 80,
                     child: Image.network(
-                      '${ApiManager.imagePath}${widget.posterPath}',
-                      width: 110,
-                      height: 120,
-                      fit: BoxFit.fill,
-                    )),
+                  '${ApiManager.imagePath}${widget.posterPath}',
+                  width: 110,
+                  height: 120,
+                  fit: BoxFit.fill,
+                )),
               ),
               InkWell(
-                onTap: () async{
-                  Movie movie = Movie(
-                    id: widget.id,
-                    title: widget.title,
-                    posterImagePath: widget.posterPath,
-                    releaseData: widget.releaseDate,
-                    isSelected: true,
-                  );
-                  await MovieDao.addMovieToFireBase(movie, widget.id);
-                  await MovieDao.updateMovie(movie);
+                onTap: () async {
+                  setState(() {
+                    isAddedToWatchlist = !isAddedToWatchlist;
+                  });
+                  await _saveWatchlistState();
+                  if (isAddedToWatchlist) {
+                    Movie movie = Movie(
+                      id: widget.id,
+                      title: widget.title,
+                      posterImagePath: widget.posterPath,
+                      releaseData: widget.releaseDate,
+                      isSelected: true,
+                    );
+                    // isFav=  await MovieDao.checkInFireBase(movie.id!) ;
+                    await MovieDao.addMovieToFireBase(movie, widget.id);
+                    await MovieDao.updateMovie(movie);
+                  }
                 },
                 child: Stack(alignment: Alignment.center, children: [
-                  ImageIcon(
-                    AssetImage(
-                      'assests/images/img_1.png',
-                    ),
-                    color: Color(0xFF514F4F),
-                    size: 32,
+                  isAddedToWatchlist
+                      ? Image.asset(
+                    "assests/images/img_3.png",
+                    height: 36,
+                    width: 28,
+                  )
+                      : Image.asset(
+                    "assests/images/img_1.png",
+                    height: 36,
+                    width: 28,
                   ),
                   Icon(
-                    Icons.add,
-                    size: 17,
+                    isAddedToWatchlist ? Icons.check : Icons.add,
                     color: Colors.white,
+                    size: 25,
                   ),
                 ]),
               ),
@@ -96,12 +133,13 @@ class _RecommendedMovieWidgetState extends State<RecommendedMovieWidget> {
             Container(
                 // width: 50,
                 child: Text(
-                  '${widget.title}',
-                  style: TextStyle(
-                      fontSize: 8,
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold),
-                maxLines: 2,)),
+              '${widget.title}',
+              style: TextStyle(
+                  fontSize: 8,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold),
+              maxLines: 2,
+            )),
             Row(
               children: [
                 Text(
@@ -110,7 +148,8 @@ class _RecommendedMovieWidgetState extends State<RecommendedMovieWidget> {
                       fontSize: 8,
                       color: Color(0xFFB5B4B4),
                       fontWeight: FontWeight.bold),
-                maxLines: 2,),
+                  maxLines: 2,
+                ),
               ],
             )
           ],
