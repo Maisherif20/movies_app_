@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:movies_app/ui/home/homeTab/new_releases/new_releases.dart';
-import 'package:movies_app/ui/home/homeTab/popularMovies/popularMoviesGetData.dart';
-import 'package:movies_app/ui/home/homeTab/recommendedMovies/recommendedMoviesGetData.dart';
+import 'package:movies_app/ui/home/homeTab/new_releases/new_releases_View.dart';
+import 'package:movies_app/ui/home/homeTab/popularMovies/popularMoviesView.dart';
+import 'package:movies_app/ui/home/homeTab/recommendedMovies/recommendedMoviesView.dart';
 
 class HomeTab extends StatefulWidget {
   @override
@@ -17,8 +17,8 @@ class _HomeTabState extends State<HomeTab> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          PopularMoviesGetData(),
-          NewReleases(),
+          PopularMoviesView(),
+          NewReleasesView(),
           SizedBox(
             height: 20,
           ),
@@ -27,7 +27,7 @@ class _HomeTabState extends State<HomeTab> {
             child: Text("Recommended" , textAlign: TextAlign.start, style: TextStyle(color: Colors.white , fontSize: 20 , fontWeight: FontWeight.bold),),
           ),
           SizedBox(height: 3,),
-          RecommendedMoviesGetData(),
+          RecommendedMoviesView(),
         ],
       ),
     );

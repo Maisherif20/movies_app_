@@ -12,7 +12,7 @@ class LikeApiManager {
     //   https://api.themoviedb.org/3/movie/157336/similar?api_key=4ca6979ce001f886f30609dd4ec72fde
 
     var url =
-        Uri.http(baseUrl, '/3/movie/$idCode/similar', {'api_key': apiKey});
+        Uri.https(baseUrl, '/3/movie/$idCode/similar', {'api_key': apiKey});
     var response = await http.get(url);
     var json = jsonDecode(response.body);
     LikeResponse likeResponse = LikeResponse.fromJson(json);

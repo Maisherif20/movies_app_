@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../api/DetailesApi.dart';
 import '../../../../model/DetailesResponse.dart';
+import '../../../../modelForFireStore/movie.dart';
+import '../../../../modelForFireStore/movieDao.dart';
 import 'more_like_this_section/like_this.dart';
 
-class DetailsWidget extends StatelessWidget {
+class DetailsWidget extends StatefulWidget {
   // String? title;
   String id;
   // String? backdropPath;
@@ -19,16 +22,43 @@ class DetailsWidget extends StatelessWidget {
   DetailsWidget({ required this.detailesResponse  , required this.id});
 
   @override
+  State<DetailsWidget> createState() => _DetailsWidgetState();
+}
+
+class _DetailsWidgetState extends State<DetailsWidget> {
+  bool isAddedToWatchlist = false;
+
+  late SharedPreferences _prefs;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadWatchlistState();
+  }
+
+  Future<void> _loadWatchlistState() async {
+    _prefs = await SharedPreferences.getInstance();
+    setState(() {
+      isAddedToWatchlist =
+          _prefs.getBool(widget.id) ?? false;
+    });
+  }
+
+  Future<void> _saveWatchlistState() async {
+    await _prefs.setBool(widget.id, isAddedToWatchlist);
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Colors.black,
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           title: Text(
-            '${detailesResponse.title}',
+            '${widget.detailesResponse.title}',
             style: TextStyle(
                 color: Colors.white,
-                fontSize: 20,
+                fontSize: 25,
                 fontWeight: FontWeight.w500),
           ),
         ),
@@ -49,7 +79,7 @@ class DetailsWidget extends StatelessWidget {
                         child: Image.network(
                           width: double.infinity,
                             fit: BoxFit.fill,
-                            '${DetailesApi.imagePath}${detailesResponse.backdropPath}')),
+                            '${DetailesApi.imagePath}${widget.detailesResponse.backdropPath}')),
                   ),
                   SizedBox(
                     height: 8,
@@ -57,11 +87,11 @@ class DetailsWidget extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(left: 10),
                     child: Text(
-                      '${detailesResponse.title}',
+                      '${widget.detailesResponse.title}',
                       style: TextStyle(
                           color: Colors.white,
                           fontSize: 18,
-                          fontWeight: FontWeight.w500),
+                          fontWeight: FontWeight.w500),maxLines: 5,
                     ),
                   ),
                   SizedBox(
@@ -70,7 +100,7 @@ class DetailsWidget extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(left: 10),
                     child: Text(
-                      '${detailesResponse.releaseDate}',
+                      '${widget.detailesResponse.releaseDate}',
                       style: TextStyle(
                         color: Color(0xFFB5B4B4),
                         fontSize: 10,
@@ -91,7 +121,7 @@ class DetailsWidget extends StatelessWidget {
                               child: Image.network(
                                   width: 129,
                                   height: 199,
-                                  '${DetailesApi.imagePath}${detailesResponse.posterPath}'),
+                                  '${DetailesApi.imagePath}${widget.detailesResponse.posterPath}'),
                             ),
                             // Image.network(
                             //   width: 129,
@@ -101,19 +131,44 @@ class DetailsWidget extends StatelessWidget {
                               top: 4,
                               left: 10,
                               child: InkWell(
-                                onTap: () {},
+                                onTap: () async {
+                                  setState(() {
+                                    isAddedToWatchlist = !isAddedToWatchlist;
+                                  });
+                                  await _saveWatchlistState();
+                                  if (isAddedToWatchlist)
+                                  {
+                                    Movie movie = Movie(
+                                      id: widget.id,
+                                      title: widget.detailesResponse.title,
+                                      posterImagePath: widget.detailesResponse.posterPath,
+                                      releaseData: widget.detailesResponse.releaseDate,
+                                      isSelected: true,
+                                    );
+                                    // isFav=  await MovieDao.checkInFireBase(movie.id!) ;
+                                    await MovieDao.addMovieToFireBase(movie, widget.id);
+                                    await MovieDao.updateMovie(movie);
+                                  }
+                                },
                                 child: Stack(
                                   children: [
-                                    Image.asset(
+                                    isAddedToWatchlist
+                                        ? Image.asset(
+                                      "assests/images/img_3.png",
+                                      height: 36,
+                                      width: 28,
+                                    )
+                                        : Image.asset(
                                       "assests/images/img_1.png",
                                       height: 36,
-                                      width: 27,
+                                      width: 28,
                                     ),
+                                    // Icon(Icons.bookmark , size: 50, color: moviee.isSelected==false?Color.fromRGBO(81, 79, 79, 1):Color.fromRGBO(247, 181, 57, 1),),
                                     Icon(
-                                      Icons.add,
+                                      isAddedToWatchlist ? Icons.check : Icons.add,
                                       color: Colors.white,
                                       size: 25,
-                                    )
+                                    ),
                                   ],
                                 ),
                               ),
@@ -146,24 +201,24 @@ class DetailsWidget extends StatelessWidget {
                                           ),
                                         ),
                                         child: Text(
-                                          '${detailesResponse.genres?[index].name}',
+                                          '${widget.detailesResponse.genres?[index].name}',
                                           style: TextStyle(
                                               fontSize: 10,
                                               color: Color(0xFFCBCBCB)),
                                         )),
                                   ],
                                 ),
-                              ),  itemCount:detailesResponse.genres?.length ,),
+                              ),  itemCount:widget.detailesResponse.genres?.length ,),
                             ),
-                            Container(
-                                width: 250,
+                              SingleChildScrollView(
                                 child: Text(
-                                  '${detailesResponse.overview}',
+                                  '${widget.detailesResponse.overview}',
                                   style: TextStyle(
                                     color: Color(0xFFCBCBCB),
                                     fontSize: 13,
                                   ),
-                                )),
+                                ),
+                              ),
                             Padding(
                               padding: const EdgeInsets.only(left: 15),
                               child: Row(
@@ -177,7 +232,7 @@ class DetailsWidget extends StatelessWidget {
                                     width: 10,
                                   ),
                                   Text(
-                                    '${detailesResponse.popularity}',
+                                    '${widget.detailesResponse.popularity}',
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontWeight: FontWeight.normal,
@@ -220,7 +275,7 @@ class DetailsWidget extends StatelessWidget {
                         SizedBox(
                           height: 8,
                         ),
-                        LikeThis(id: id),
+                        LikeThis(id: widget.id),
                       ],
                     ),
                   ),

@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:movies_app/api/LikeApiManager.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class LikeThisWidget extends StatelessWidget {
+import '../../../../../modelForFireStore/movie.dart';
+import '../../../../../modelForFireStore/movieDao.dart';
+
+class LikeThisWidget extends StatefulWidget {
   String imagePoster;
   String id;
   String title;
   String date;
   String vote;
+  String releaseDate;
+
 
   LikeThisWidget({
     required this.id,
@@ -14,8 +20,35 @@ class LikeThisWidget extends StatelessWidget {
     required this.title,
     required this.date,
     required this.vote,
+    required this.releaseDate
   });
 
+  @override
+  State<LikeThisWidget> createState() => _LikeThisWidgetState();
+}
+
+class _LikeThisWidgetState extends State<LikeThisWidget> {
+  bool isAddedToWatchlist = false;
+
+  late SharedPreferences _prefs;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadWatchlistState();
+  }
+
+  Future<void> _loadWatchlistState() async {
+    _prefs = await SharedPreferences.getInstance();
+    setState(() {
+      isAddedToWatchlist =
+          _prefs.getBool(widget.id) ?? false;
+    });
+  }
+
+  Future<void> _saveWatchlistState() async {
+    await _prefs.setBool(widget.id, isAddedToWatchlist);
+  }
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -31,23 +64,46 @@ class LikeThisWidget extends StatelessWidget {
                   // height: 160,
                   //   width: 80,
                   child: Image.network(
-                '${LikeApiManager.imagePath}${imagePoster}',
+                '${LikeApiManager.imagePath}${widget.imagePoster}',
                 height: 140,
               )),
               InkWell(
-                onTap: () {},
+                onTap: () async {
+                  setState(() {
+                    isAddedToWatchlist = !isAddedToWatchlist;
+                  });
+                  await _saveWatchlistState();
+                  if (isAddedToWatchlist)
+                  {
+                    Movie movie = Movie(
+                      id: widget.id,
+                      title: widget.title,
+                      posterImagePath: widget.imagePoster,
+                      releaseData: widget.releaseDate,
+                      isSelected: true,
+                    );
+                    // isFav=  await MovieDao.checkInFireBase(movie.id!) ;
+                    await MovieDao.addMovieToFireBase(movie, widget.id);
+                    await MovieDao.updateMovie(movie);
+                  }
+                },
                 child: Stack(alignment: Alignment.center, children: [
-                  ImageIcon(
-                    AssetImage(
-                      'assests/images/img_1.png',
-                    ),
-                    color: Color.fromRGBO(18, 18, 18, 1),
-                    size: 32,
+                  isAddedToWatchlist
+                      ? Image.asset(
+                    "assests/images/img_3.png",
+                    height: 36,
+                    width: 28,
+                  )
+                      : Image.asset(
+                    "assests/images/img_1.png",
+                    height: 36,
+                    width: 28,
                   ),
+                  // Icon(Icons.bookmark , size: 50, color: moviee.isSelected==false?Color.fromRGBO(81, 79, 79, 1):Color.fromRGBO(247, 181, 57, 1),),
                   Icon(
-                    Icons.add,
-                    size: 17,
+                    isAddedToWatchlist ? Icons.check : Icons.add,
                     color: Colors.white,
+                    size: 25,
                   ),
                 ]),
               ),
@@ -63,7 +119,7 @@ class LikeThisWidget extends StatelessWidget {
                   width: 2,
                 ),
                 Text(
-                  '${vote}',
+                  '${widget.vote}',
                   style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.normal,
@@ -75,7 +131,7 @@ class LikeThisWidget extends StatelessWidget {
             Container(
                 width: 80,
                 child: Text(
-                  '${title}',
+                  '${widget.title}',
                   style: TextStyle(
                       fontSize: 8,
                       color: Colors.white,
@@ -84,7 +140,7 @@ class LikeThisWidget extends StatelessWidget {
             Row(
               children: [
                 Text(
-                  '${date}',
+                  '${widget.date}',
                   style: TextStyle(
                       fontSize: 8,
                       color: Color(0xFFB5B4B4),
