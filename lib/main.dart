@@ -1,7 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:movies_app/firebase_options.dart';
-import 'package:movies_app/ui/Auth/Facebook/facebook_auth.dart';
 import 'package:movies_app/ui/home/browseTab/categoryMovieList.dart';
 import 'package:movies_app/ui/home/homeScreen.dart';
 import 'package:movies_app/ui/splash_screen/splashScreen.dart';
@@ -24,9 +23,8 @@ class MyApp extends StatelessWidget {
         SplashScreen.routeName: (context) => SplashScreen(),
         HomeScreen.routeName: (context) => HomeScreen(),
         CategoryMoviesList.routeName:(context) => CategoryMoviesList(),
-        LoginWithFacebook.routeName:(context) => LoginWithFacebook(),
       },
-      initialRoute: LoginWithFacebook.routeName,
+      initialRoute: SplashScreen.routeName,
       theme: ThemeData(
         bottomNavigationBarTheme:const BottomNavigationBarThemeData(
           unselectedItemColor: Colors.white,
