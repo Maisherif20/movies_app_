@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
       routes: {
         SplashScreen.routeName: (context) => SplashScreen(),
         HomeScreen.routeName: (context) => HomeScreen(),
-        CategoryMoviesList.routeName:(context) => CategoryMoviesList()
+        CategoryMoviesList.routeName:(context) => CategoryMoviesList(),
       },
       initialRoute: SplashScreen.routeName,
       theme: ThemeData(

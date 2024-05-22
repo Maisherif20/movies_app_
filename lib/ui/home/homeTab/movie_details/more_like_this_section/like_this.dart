@@ -15,6 +15,7 @@ class LikeThis extends StatefulWidget {
 class _LikeThisState extends State<LikeThis> {
   LikeViewModel viewModel =LikeViewModel();
 
+  @override
   void initState() {
     super.initState();
     viewModel.getLike(widget.id);
